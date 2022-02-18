@@ -1,0 +1,10 @@
+SHUTDOWN = "shutdown" # shutdown the system
+GOTO = "goto" # go to folder, "cd" in cmd
+CREATEFILE = "createfil" # create a file
+CREATEFOLDER = "createfol" # create a folder
+DELETEFILE = "deletefil" # delete a file
+DELETEFOLDER = "deletefol" # delete a folder
+FILESINFOLDER = "filfol" # make a list of files (and folders) in the current folder, "dir" in cmd
+WRITESCREEN = "writescrn" # write a message in the screen, "echo" in cmd
+OPEN = "open" # open a file
+GETSTATSPC = "statspc" # get stats from pc, like ram, cpu and etc...
