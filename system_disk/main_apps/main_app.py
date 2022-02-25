@@ -64,7 +64,7 @@ class get_commands:
                             self.advance()
                         value = self.make_word()
                         if pathvalidate.is_valid_filename(value) and not self.only_dots(value):
-                            self.command_list.append(command("CREATEFILE", value))
+                            self.command_list.append(command("CREATEFIL", value))
                             if len(self.command_list) == 1:
                                 break
                         else:
@@ -75,9 +75,10 @@ class get_commands:
                         while self.current_char in " \t" and self.pos < len(self.text):
                             self.advance()
                         value = self.make_word()
-                        self.command_list.append(command("CREATEFOLDER", value))
-                        if len(self.command_list) == 1:
-                            break
+                        if pathvalidate.is_valid_filepath(value) and not self.only_dots(value):
+                            self.command_list.append(command("CREATEFOL", value))
+                            if len(self.command_list) == 1:
+                                break
                         else:
                             error = InvalidFolderName(value)
                 elif self.word == DELETEFILE:
@@ -86,7 +87,7 @@ class get_commands:
                         while self.current_char in " \t" and self.pos < len(self.text):
                             self.advance()
                         value = self.make_word()
-                        self.command_list.append(command("DELETEFILE", value))
+                        self.command_list.append(command("DELETEFIL", value))
                         if len(self.command_list) == 1:
                             break
                 elif self.word == DELETEFOLDER:
@@ -95,17 +96,17 @@ class get_commands:
                         while self.current_char in " \t" and self.pos < len(self.text):
                             self.advance()
                         value = self.make_word()
-                        self.command_list.append(command("DELETEFOLDER", value))
+                        self.command_list.append(command("DELETEFOL", value))
                         if len(self.command_list) == 1:
                             break
                 elif self.word == FILESINFOLDER:
-                    self.command_list.append(command("FILESINFOLDER"))
+                    self.command_list.append(command("FILFOL"))
                     if len(self.command_list) == 1:
                         break
                 elif self.word == WRITESCREEN:
                     self.advance()
                     value = self.make_word()
-                    self.command_list.append(command("WRITESCREEN", value))
+                    self.command_list.append(command("WRITESCRN", value))
                     if len(self.command_list) == 1:
                         break
                 elif self.word == OPEN:
@@ -131,39 +132,63 @@ class get_commands:
                 
 
     def make_word(self):
+        not_in = ""
         word_text = ""
-        if self.word == GOTO or self.word == WRITESCREEN:
-            while not self.current_char in "\t" and self.pos <= len(self.text):
-                word_text += self.current_char
-                self.advance()
-                if self.current_char == None:
-                    break
-        else:
-            while not self.current_char in " \t" and self.pos <= len(self.text):
-                word_text += self.current_char
-                self.advance()
-                if self.current_char == None:
-                    break
+        if self.word in [GOTO, WRITESCREEN, CREATEFOLDER, CREATEFILE, DELETEFILE, DELETEFOLDER, OPEN]: not_in = "\t"
+        else: not_in = " \t"
+        
+        while not self.current_char in not_in and self.pos <= len(self.text):
+            word_text += self.current_char
+            self.advance()
+            if self.current_char == None:
+                break
         
         return word_text
 
+def int_cmd(cmds_list):
+    global current_dir
+    _cmd = cmds_list[0]
+    type_cmd = _cmd.type.lower()
+    #print(type_cmd)
+    if _cmd.value:
+        value_cmd = _cmd.value
+    if type_cmd == SHUTDOWN:
+        shutdown_cm()
+    elif type_cmd == GOTO:
+        #print("Current Directory:", current_dir, "\nValue_cmd:", value_cmd)
+        gt = goto_cm(value_cmd, current_dir)
+        
+        if gt: return gt
+    elif type_cmd == CREATEFILE:
+        crf = createfile_cm(value_cmd)
+        if crf: return crf
+    elif type_cmd == CREATEFOLDER:
+        crfl = createfolder_cm(value_cmd)
+        if crfl: return crfl
+    else:
+        return CommandNotYetImplemented(type_cmd).str_return()
+        
+            
 def run(command):
-    commands_list = get_commands(command).make_list_commands()
-    return commands_list
+    commands_list, _error = get_commands(command).make_list_commands()
+    
+    if _error:
+        return _error.str_return()
+    
+    else:
+        return int_cmd(commands_list)
+        
 
 def main_app_sys():
     equal_sign = "<" + "="*30 + ">"
     print(f"\n\n{equal_sign}\n{SYSTEM_NAME} {SYSTEM_VER}\nMade in {YEAR_MADE} by {AUTHOR}.\n{equal_sign}\n")
 
     while True:
-        current_dir = str(os.getcwd().split(REAL_SYSTEM_DISK_FOLDER)[1] + SYSTEM_DISK_FOLDER)
+        global current_dir
+        current_dir = str(SYSTEM_DISK_FOLDER + os.getcwd().split(REAL_SYSTEM_DISK_FOLDER)[1])
 
         user_input = input(current_dir + ">")
 
-        command_list, error_pro = run(user_input)
-
-        if error_pro:
-            print(error_pro.str_return())
-        else:
-            print(command_list)
+        
+        print(run(user_input) if run(user_input) else "")
 
