@@ -41,3 +41,19 @@ class InvalidFolderName(ErrorInOS):
 class FileWasNotFound(ErrorInOS):
     def __init__(self, filename):
         super().__init__("File Was Not Found Error", f"The file \"{filename}\" doesn't exist.")
+        
+class FolderWasNotFound(ErrorInOS):
+    def __init__(self, foldername):
+        super().__init__("Folder Was Not Found Error", f"The folder \"{foldername}\" doesn't exist.")
+        
+class FileAlreadyExists(ErrorInOS):
+    def __init__(self, filename):
+        super().__init__("File Already Exists Error", f"The file \"{filename}\" already exists.")
+        
+class FolderAlreadyExists(ErrorInOS):
+    def __init__(self, foldername):
+        super().__init__("Folder Already Exists Error", f"The folder \"{foldername}\" already exists.")
+        
+class CommandNotYetImplemented(ErrorInOS):
+    def __init__(self, command_name):
+        super().__init__("Command Not Yet Implemented Error", f"The command \"{command_name}\" exists but has not been implemented yet.")
