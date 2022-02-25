@@ -14,7 +14,7 @@ class type_stor:
         converted_bytes = bytes
         i = 1
         
-        while converted_bytes > 700:
+        while converted_bytes > 750:
             i += 1
             
             converted_bytes /= 1024
