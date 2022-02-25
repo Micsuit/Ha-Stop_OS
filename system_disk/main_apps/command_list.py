@@ -25,7 +25,10 @@ def goto_cm(folder, curr_dir):
     if curr_dir == "H:" and folder == "..":
         pass
     elif os.path.exists(folder):
-        os.chdir(folder)
+        if os.path.isdir(folder):
+            os.chdir(folder)
+        else:
+            error = IsFileError(folder)
     else:
         error = FolderWasNotFound(folder)
         
