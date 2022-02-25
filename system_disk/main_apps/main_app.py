@@ -122,6 +122,10 @@ class get_commands:
                     self.command_list.append(command("GETSTATSPC"))
                     if len(self.command_list) == 1:
                         break
+                elif self.word == DATETIME:
+                    self.command_list.append(command("DATETIME"))
+                    if len(self.command_list) == 1:
+                        break
                 else:
                     error = CommandNotIdentified(self.word)
                     break
@@ -165,6 +169,16 @@ def int_cmd(cmds_list):
     elif type_cmd == CREATEFOLDER:
         crfl = createfolder_cm(value_cmd)
         if crfl: return crfl
+    elif type_cmd == DELETEFILE:
+        dlf = delfile_cm(value_cmd)
+        
+        if dlf: return dlf
+    elif type_cmd == DELETEFOLDER:
+        dlfd = delfolder_cm(value_cmd)
+        
+        if dlfd: return dlfd
+    elif type_cmd == FILESINFOLDER:
+        filfol_cm(current_dir)
     else:
         return CommandNotYetImplemented(type_cmd).str_return()
         
@@ -191,4 +205,3 @@ def main_app_sys():
 
         
         print(run(user_input) if run(user_input) else "")
-
