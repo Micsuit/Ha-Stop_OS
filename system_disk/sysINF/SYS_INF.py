@@ -4,6 +4,23 @@ class type_stor:
     MB = KB * 1024
     GB = MB * 1024
     TB = GB * 1024
+    
+    
+    def convert_byte(bytes, tpstor):
+        return bytes / tpstor
+    
+    def convert_show(bytes):
+        lev_stor_str = {1: "B", 2: "KB", 3: "MB", 4: "GB", 5: "TB"}
+        converted_bytes = bytes
+        i = 1
+        
+        while converted_bytes > 700:
+            i += 1
+            
+            converted_bytes /= 1024
+            
+        return f"{(round(converted_bytes, 2))} {lev_stor_str[i]}"
+
 
 class RAM:
     def __init__(self, num, type_storage):
