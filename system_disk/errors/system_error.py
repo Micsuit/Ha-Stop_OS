@@ -57,3 +57,15 @@ class FolderAlreadyExists(ErrorInOS):
 class CommandNotYetImplemented(ErrorInOS):
     def __init__(self, command_name):
         super().__init__("Command Not Yet Implemented Error", f"The command \"{command_name}\" exists but has not been implemented yet.")
+        
+class UnknownError(ErrorInOS):
+    def __init__(self, error_mes):
+        super().__init__("Unknown Error", error_mes)
+
+class IsFolderError(ErrorInOS):
+    def __init__(self, foldername):
+        super().__init__("Is Folder Error", f"\"{foldername}\" is a folder.")
+        
+class IsFileError(ErrorInOS):
+    def __init__(self, filename):
+        super().__init__("Is File Error", f"\"{filename}\" is a file.")
