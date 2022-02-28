@@ -18,7 +18,11 @@ class get_commands:
         self.text = text
         self.pos = 1
         self.command_list = []
-        self.current_char = self.text[self.pos - 1]
+        if self.text:
+            self.current_char = self.text[self.pos - 1]
+        else:
+            self.text = "  "
+            self.current_char = self.text[self.pos - 1]
         self.word = ""
 
     def only_dots(self, filename) -> bool:
@@ -106,6 +110,7 @@ class get_commands:
                 elif self.word == WRITESCREEN:
                     self.advance()
                     value = self.make_word()
+                    if value.isspace() or value == "": value = "*Nothing*"
                     self.command_list.append(command("WRITESCRN", value))
                     if len(self.command_list) == 1:
                         break
@@ -119,13 +124,18 @@ class get_commands:
                         if len(self.command_list) == 1:
                             break
                 elif self.word == GETSTATSPC:
-                    self.command_list.append(command("GETSTATSPC"))
+                    self.command_list.append(command("STATSPC"))
                     if len(self.command_list) == 1:
                         break
                 elif self.word == DATETIME:
-                    self.command_list.append(command("DATETIME"))
+                    self.command_list.append(command("DATIME"))
                     if len(self.command_list) == 1:
                         break
+                elif self.word == HELP:
+                    self.command_list.append(command("HELP"))
+                    if len(self.command_list) == 1:
+                        break
+
                 else:
                     error = CommandNotIdentified(self.word)
                     break
@@ -140,8 +150,9 @@ class get_commands:
         word_text = ""
         if self.word in [GOTO, WRITESCREEN, CREATEFOLDER, CREATEFILE, DELETEFILE, DELETEFOLDER, OPEN]: not_in = "\t"
         else: not_in = " \t"
+        len_text = len(self.text)
         
-        while not self.current_char in not_in and self.pos <= len(self.text):
+        while self.pos <= len(self.text) and not self.current_char in not_in:
             word_text += self.current_char
             self.advance()
             if self.current_char == None:
@@ -151,36 +162,47 @@ class get_commands:
 
 def int_cmd(cmds_list):
     global current_dir
-    _cmd = cmds_list[0]
-    type_cmd = _cmd.type.lower()
-    #print(type_cmd)
-    if _cmd.value:
-        value_cmd = _cmd.value
-    if type_cmd == SHUTDOWN:
-        shutdown_cm()
-    elif type_cmd == GOTO:
-        #print("Current Directory:", current_dir, "\nValue_cmd:", value_cmd)
-        gt = goto_cm(value_cmd, current_dir)
-        
-        if gt: return gt
-    elif type_cmd == CREATEFILE:
-        crf = createfile_cm(value_cmd)
-        if crf: return crf
-    elif type_cmd == CREATEFOLDER:
-        crfl = createfolder_cm(value_cmd)
-        if crfl: return crfl
-    elif type_cmd == DELETEFILE:
-        dlf = delfile_cm(value_cmd)
-        
-        if dlf: return dlf
-    elif type_cmd == DELETEFOLDER:
-        dlfd = delfolder_cm(value_cmd)
-        
-        if dlfd: return dlfd
-    elif type_cmd == FILESINFOLDER:
-        filfol_cm(current_dir)
+    if cmds_list:
+        _cmd = cmds_list[0]
+        type_cmd = _cmd.type.lower()
+        #print(type_cmd)
+        if _cmd.value:
+            value_cmd = _cmd.value
+        if type_cmd == SHUTDOWN:
+            shutdown_cm()
+        elif type_cmd == GOTO:
+            #print("Current Directory:", current_dir, "\nValue_cmd:", value_cmd)
+            gt = goto_cm(value_cmd, current_dir)
+            
+            if gt: return gt
+        elif type_cmd == CREATEFILE:
+            crf = createfile_cm(value_cmd)
+            if crf: return crf
+        elif type_cmd == CREATEFOLDER:
+            crfl = createfolder_cm(value_cmd)
+            if crfl: return crfl
+        elif type_cmd == DELETEFILE:
+            dlf = delfile_cm(value_cmd)
+            
+            if dlf: return dlf
+        elif type_cmd == DELETEFOLDER:
+            dlfd = delfolder_cm(value_cmd)
+            
+            if dlfd: return dlfd
+        elif type_cmd == FILESINFOLDER:
+            filfol_cm(current_dir)
+        elif type_cmd == WRITESCREEN:
+            writescreen_cm(value_cmd)
+        elif type_cmd == GETSTATSPC:
+            getstatspc_cm()
+        elif type_cmd == DATETIME:
+            datetime_cm()
+        elif type_cmd == HELP:
+            help_cm()
+        else:
+            return CommandNotYetImplemented(type_cmd).str_return()
     else:
-        return CommandNotYetImplemented(type_cmd).str_return()
+        pass
         
             
 def run(command):
@@ -205,3 +227,4 @@ def main_app_sys():
 
         
         print(run(user_input) if run(user_input) else "")
+
