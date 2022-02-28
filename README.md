@@ -6,4 +6,4 @@ Have fun messing around with this system, modify whatever you want :D
 
 Currently it's in alpha stage.
 
-Version: 0.9
+Version: v0.9.0-alpha
