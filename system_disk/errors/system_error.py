@@ -20,7 +20,7 @@ class PCCantRunSys(ErrorInOS):
 
 class CommandNotIdentified(ErrorInOS):
     def __init__(self, command):
-        super().__init__("Command Not Indentified Error", f"The command \"{command}\" doesn't exist.")
+        super().__init__("Command Not Indentified Error", f"The command \"{command}\" doesn't exist. Type \"help\" to get all available commands.")
 
 class FileNotDefined(ErrorInOS):
     def __init__(self):
