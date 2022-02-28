@@ -2,7 +2,6 @@ import sys, time, os
 from sysINF.SYS_INF import *
 from errors.system_error import *
 import time
-import time
 
 SHUTDOWN = "shutdown" # shutdown the system
 GOTO = "goto" # go to folder, "cd" in cmd
@@ -114,16 +113,12 @@ def filfol_cm(curr_folder):
         flrfol_size = type_stor.convert_show(os.path.getsize(flrfol))
         flrfol_date = time.strftime('%d/%m/%Y', time.localtime(os.path.getmtime(flrfol)))
         
-        if os.path.isfile(flrfol):
-            print(f"\n     - {flrfol} | {flrfol_size} | {flrfol_date} | FILE")
-        else:
-            print(f"\n     - {flrfol} | {flrfol_date} | FOLDER")
+        if os.path.isfile(flrfol): print(f"\n     - {flrfol} | {flrfol_size} | {flrfol_date} | FILE")
+        else: print(f"\n     - {flrfol} | {flrfol_date} | FOLDER")
 
 def writescreen_cm(msg_to_wrt):
-    if msg_to_wrt:
-        print(msg_to_wrt)
-    else:
-        print("")
+    if msg_to_wrt: print(msg_to_wrt)
+    else: print("")
     
 def getstatspc_cm():
     print("="*25 + " System Information " + "="*25)
@@ -139,7 +134,6 @@ Storage: {SYS_STORAGE}\n""")
 
 def datetime_cm():
     print(f"Current date: {time.strftime('%d/%m/%Y %H:%M:%S')}")
-
 
 def help_cm():
     print("List of all commands:")
