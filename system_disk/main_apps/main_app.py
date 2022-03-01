@@ -39,7 +39,7 @@ class get_commands:
     def get_command(self):
         error = None
         self.word = self.make_word().lower()
-        if self.word in [GOTO, WRITESCREEN, CREATEFOLDER, CREATEFILE, DELETEFILE, DELETEFOLDER, OPEN]:
+        if self.word in [GOTO, WRITESCREEN, CREATEFOLDER, CREATEFILE, DELETEFILE, DELETEFOLDER, OPEN, COPY]:
             if self.word == GOTO:
                 if self.blank_file():
                     error = FolderNotDefined()
@@ -94,6 +94,16 @@ class get_commands:
                         self.advance()
                     value = self.make_word()
                     self.cmd_str = command("OPEN", value)
+            elif self.word == COPY:
+                if self.blank_file(): error = FileNotDefined()
+                else:
+                    while self.current_char in " \t" and self.pos < len(self.text): self.advance()
+                    path1 = self.make_word()
+                    while self.current_char in " >\t" and self.pos < len(self.text): self.advance()
+                    path2 = self.make_word()
+                    
+                    self.cmd_str = command("COPY", f"{path1} >>> {path2}")
+                    
                     
             return self.cmd_str, error
                     
