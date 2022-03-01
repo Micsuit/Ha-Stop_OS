@@ -143,3 +143,5 @@ def help_cm():
 def open_file_cm():
     pass
     
+def copy_cm():
+    pass
