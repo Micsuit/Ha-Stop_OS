@@ -51,7 +51,7 @@ class storage:
 
 # [System Param]
 SYSTEM_NAME = "Ha-Stop OS"
-SYSTEM_VER = "v0.9.0-alpha"
+SYSTEM_VER = "v0.9.1-alpha"
 YEAR_MADE = 2022
 AUTHOR = "Daniel Munteanu"
 REAL_SYSTEM_DISK_FOLDER = "system_disk"
