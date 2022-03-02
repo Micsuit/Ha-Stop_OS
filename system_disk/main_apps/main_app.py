@@ -30,7 +30,8 @@ class get_commands:
         else: return False
 
     def blank_file(self):
-        return any([self.current_char == None, self.text[self.pos:len(self.text)].isspace(), self.text[self.pos:len(self.text)] == ""])
+        len_text = len(self.text)
+        return any([self.current_char == None, self.text[self.pos:len(self.text)].isspace(), self.pos+1 == len(self.text)])
 
     def advance(self):
         self.pos += 1
@@ -38,6 +39,8 @@ class get_commands:
 
     def get_command(self):
         error = None
+        while self.current_char in " \t":
+            self.advance()
         self.word = self.make_word().lower()
         if self.word == GOTO:
             if self.blank_file():
@@ -94,13 +97,18 @@ class get_commands:
                 value = self.make_word()
                 self.cmd_str = command("OPEN", value)
         elif self.word == COPY:
-            if self.blank_file(): error = FileNotDefined()
+            if self.blank_file(): error = FolderFileNotFoundCopy()
             else:
                 while self.current_char in " \t" and self.pos < len(self.text): self.advance()
                 path1 = self.make_word()
-                while self.current_char in " >\t" and self.pos < len(self.text): self.advance()
-                path2 = self.make_word()
-                self.cmd_str = command("COPY", f"{path1} >>> {path2}")
+                print("Path1: " + path1)
+                if self.current_char:
+                    while self.current_char in " >\t" and self.pos < len(self.text): self.advance()
+                if self.blank_file(): error = FolderFileNotFoundToCopy()
+                else:
+                    path2 = self.make_word()
+                    print("Path2: " + path2)
+                    self.cmd_str = command("COPY", f"{path1} >>> {path2}")
         
         elif self.word == SHUTDOWN:
             self.cmd_str = command("SHUTDOWN")
@@ -125,12 +133,10 @@ class get_commands:
                     
         return self.cmd_str, error
                     
-
-                
-
     def make_word(self):
         not_in, word_text = "", ""
         if self.word in [GOTO, WRITESCREEN, CREATEFOLDER, CREATEFILE, DELETEFILE, DELETEFOLDER, OPEN]: not_in = "\t"
+        elif self.word == COPY: not_in = ">\t"
         else: not_in = " \t"
         
         while self.pos <= len(self.text) and not self.current_char in not_in:

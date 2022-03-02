@@ -69,3 +69,11 @@ class IsFolderError(ErrorInOS):
 class IsFileError(ErrorInOS):
     def __init__(self, filename):
         super().__init__("Is File Error", f"\"{filename}\" is a file.")
+        
+class FolderFileNotFoundCopy(ErrorInOS):
+    def __init__(self):
+        super().__init__("Folder or File Not Found", "Please specify a File or Folder to copy.")
+        
+class FolderFileNotFoundToCopy(ErrorInOS):
+    def __init__(self):
+        super().__init__("Folder or File Not Found To Copy", "Please specify a File or Folder to copy to.")
