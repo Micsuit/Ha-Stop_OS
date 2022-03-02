@@ -8,6 +8,8 @@ def test_ram():
 def test_cpu():
     test_all = [PC_CPU.name == MIN_CPU.name, 
                 PC_CPU.bits >= MIN_CPU.bits,
+                PC_CPU.power >= MIN_CPU.power]
+
 from errors.system_error import *
 from sysINF.SYS_INF import *
 
