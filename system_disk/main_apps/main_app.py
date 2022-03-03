@@ -30,8 +30,10 @@ class get_commands:
         else: return False
 
     def blank_file(self):
-        len_text = len(self.text)
-        return any([self.current_char == None, self.text[self.pos:len(self.text)].isspace(), self.pos+1 == len(self.text)])
+        #len_text = len(self.text)
+        #print(f"\"{self.current_char}\", {self.text[self.pos-1:len(self.text)]}, {self.pos}, {len_text}")
+        #print([self.current_char == None, self.text[self.pos-1:len(self.text)].isspace(), self.pos == len(self.text)])
+        return any([self.current_char == None, self.text[self.pos-1:len(self.text)].isspace(), self.pos-1 == len(self.text)])
 
     def advance(self):
         self.pos += 1
@@ -101,14 +103,17 @@ class get_commands:
             else:
                 while self.current_char in " \t" and self.pos < len(self.text): self.advance()
                 path1 = self.make_word()
-                print("Path1: " + path1)
-                if self.current_char:
-                    while self.current_char in " >\t" and self.pos < len(self.text): self.advance()
-                if self.blank_file(): error = FolderFileNotFoundToCopy()
+                if path1.isspace() or path1 == "":
+                    error = FolderFileNotFoundCopy()
                 else:
-                    path2 = self.make_word()
-                    print("Path2: " + path2)
-                    self.cmd_str = command("COPY", f"{path1} >>> {path2}")
+                    print("Path1: " + path1)
+                    if self.current_char:
+                        while self.current_char in " >\t" and self.pos < len(self.text): self.advance()
+                    if self.blank_file(): error = FolderFileNotFoundToCopy()
+                    else:
+                        path2 = self.make_word()
+                        print("Path2: " + path2)
+                        self.cmd_str = command("COPY", f"{path1} >>> {path2}")
         
         elif self.word == SHUTDOWN:
             self.cmd_str = command("SHUTDOWN")
