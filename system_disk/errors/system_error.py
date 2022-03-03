@@ -72,8 +72,16 @@ class IsFileError(ErrorInOS):
         
 class FolderFileNotFoundCopy(ErrorInOS):
     def __init__(self):
-        super().__init__("Folder or File Not Found", "Please specify a File or Folder to copy.")
+        super().__init__("Folder or File Not Found Error", "Please specify a File or Folder to copy.")
         
 class FolderFileNotFoundToCopy(ErrorInOS):
     def __init__(self):
-        super().__init__("Folder or File Not Found To Copy", "Please specify a File or Folder to copy to.")
+        super().__init__("Folder or File Not Found To Copy Error", "Please specify a File or Folder to copy to.")
+        
+class FolderFileNotFound(ErrorInOS):
+    def __init__(self, folfil):
+        super().__init__("Folder or File Not Found Error", f"The File/Folder \"{folfil}\" doesn't exist.")
+        
+class CopyToFile(ErrorInOS):
+    def __init__(self):
+        super().__init__("Copy To File Error", "You can only copy to directories.")

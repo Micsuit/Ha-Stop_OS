@@ -1,7 +1,6 @@
-import sys, time, os
+import sys, time, os, shutil
 from sysINF.SYS_INF import *
 from errors.system_error import *
-import time
 
 SHUTDOWN = "shutdown" # shutdown the system
 GOTO = "goto" # go to folder, "cd" in cmd
@@ -143,5 +142,28 @@ def help_cm():
 def open_file_cm():
     pass
     
-def copy_cm():
-    pass
+def copy_cm(fst_fiol, sec_fol):
+    error = None
+    is_file_fst = False
+    is_file_sec = False
+    if not os.path.exists(fst_fiol): error = FolderFileNotFound(fst_fiol)
+    elif not os.path.exists(sec_fol): error = FolderFileNotFound(sec_fol)
+        
+    else:  
+        if os.path.isfile(sec_fol): is_file_fst = True
+        if os.path.isfile(sec_fol): is_file_sec = True
+        
+        if is_file_sec: error = CopyToFile()
+        
+        else:
+            try: 
+                shutil.copy2(fst_fiol, sec_fol)
+                if is_file_fst: delfile_cm(fst_fiol)
+                else: delfolder_cm(fst_fiol)
+                
+            except: print("Error Copying File...")
+            
+        
+        
+    
+    if error: error.str_return()

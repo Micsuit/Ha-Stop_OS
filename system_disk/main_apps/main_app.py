@@ -191,6 +191,13 @@ def int_cmd(cmd):
     
     elif type_cmd == HELP: help_cm()
     
+    elif type_cmd == COPY:
+        pathsfiles = value_cmd.split(" >>> ")
+        
+        path1, path2 = pathsfiles[0], pathsfiles[1]
+    
+        copy_cm(path1, path2)
+    
     else: return CommandNotYetImplemented(type_cmd).str_return()
         
             
