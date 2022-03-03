@@ -129,7 +129,7 @@ class get_commands:
             return "", error
         
         else:
-            error = CommandNotIdentified()
+            error = CommandNotIdentified(self.word)
                     
         return self.cmd_str, error
                     
