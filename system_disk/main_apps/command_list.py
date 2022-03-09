@@ -1,3 +1,7 @@
+"""
+All commands in the system...
+"""
+
 import sys, time, os, shutil
 from sysINF.SYS_INF import *
 from errors.system_error import *

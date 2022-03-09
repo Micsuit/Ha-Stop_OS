@@ -1,3 +1,7 @@
+"""
+Errors used by the system...
+"""
+
 from sysINF.SYS_INF import SYSTEM_NAME
 
 

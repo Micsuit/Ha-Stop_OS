@@ -1,3 +1,7 @@
+"""
+Main CMD program
+"""
+
 from sysINF.SYS_INF import *
 from errors.system_error import *
 import os
@@ -197,7 +201,6 @@ def int_cmd(cmd):
         mpy = move_cm(path1, path2)
         
         if mpy: return mpy
-        
         
     
     else: return CommandNotYetImplemented(type_cmd).str_return()

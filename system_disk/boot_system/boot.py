@@ -1,14 +1,8 @@
-import os
-from errors.system_error import *
-from sysINF.SYS_INF import *
-
-def test_ram():
-   return PC_RAM.size >= MIN_RAM.size
-
-def test_cpu():
-    test_all = [PC_CPU.name == MIN_CPU.name, 
-                PC_CPU.bits >= MIN_CPU.bits,
-                PC_CPU.power >= MIN_CPU.power]
+"""
+The Main Boot Sector of the System
+Used to initialize the system.
+Also includes "tests" to the ram, cpu and storage.
+"""
 
 from errors.system_error import *
 from sysINF.SYS_INF import *

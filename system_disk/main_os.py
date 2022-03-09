@@ -1,3 +1,7 @@
+"""
+The heart of the system, execute this if you want to run the system.
+"""
+
 import boot_system.boot as boot
 from sysINF.SYS_INF import *
 import sys
