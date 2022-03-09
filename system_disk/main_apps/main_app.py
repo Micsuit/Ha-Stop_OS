@@ -98,22 +98,20 @@ class get_commands:
                     self.advance()
                 value = self.make_word()
                 self.cmd_str = command("OPEN", value)
-        elif self.word == COPY:
-            if self.blank_file(): error = FolderFileNotFoundCopy()
+        elif self.word == MOVE:
+            if self.blank_file(): error = FolderFileNotFoundMove()
             else:
                 while self.current_char in " \t" and self.pos < len(self.text): self.advance()
                 path1 = self.make_word()
                 if path1.isspace() or path1 == "":
-                    error = FolderFileNotFoundCopy()
+                    error = FolderFileNotFoundMove()
                 else:
-                    print("Path1: " + path1)
                     if self.current_char:
                         while self.current_char in " >\t" and self.pos < len(self.text): self.advance()
-                    if self.blank_file(): error = FolderFileNotFoundToCopy()
+                    if self.blank_file(): error = FolderFileNotFoundToMove()
                     else:
                         path2 = self.make_word()
-                        print("Path2: " + path2)
-                        self.cmd_str = command("COPY", f"{path1} >>> {path2}")
+                        self.cmd_str = command("MOVE", f"{path1} >>> {path2}")
         
         elif self.word == SHUTDOWN:
             self.cmd_str = command("SHUTDOWN")
@@ -141,7 +139,7 @@ class get_commands:
     def make_word(self):
         not_in, word_text = "", ""
         if self.word in [GOTO, WRITESCREEN, CREATEFOLDER, CREATEFILE, DELETEFILE, DELETEFOLDER, OPEN]: not_in = "\t"
-        elif self.word == COPY: not_in = ">\t"
+        elif self.word == MOVE: not_in = ">\t"
         else: not_in = " \t"
         
         while self.pos <= len(self.text) and not self.current_char in not_in:
@@ -191,12 +189,16 @@ def int_cmd(cmd):
     
     elif type_cmd == HELP: help_cm()
     
-    elif type_cmd == COPY:
+    elif type_cmd == MOVE:
         pathsfiles = value_cmd.split(" >>> ")
         
-        path1, path2 = pathsfiles[0], pathsfiles[1]
+        path1, path2 = pathsfiles[0].rstrip(), pathsfiles[1].rstrip()
     
-        copy_cm(path1, path2)
+        mpy = move_cm(path1, path2)
+        
+        if mpy: return mpy
+        
+        
     
     else: return CommandNotYetImplemented(type_cmd).str_return()
         

@@ -70,18 +70,18 @@ class IsFileError(ErrorInOS):
     def __init__(self, filename):
         super().__init__("Is File Error", f"\"{filename}\" is a file.")
         
-class FolderFileNotFoundCopy(ErrorInOS):
+class FolderFileNotFoundMove(ErrorInOS):
     def __init__(self):
-        super().__init__("Folder or File Not Found Error", "Please specify a File or Folder to copy.")
+        super().__init__("Folder or File Not Found Error", "Please specify a File or Folder to move.")
         
-class FolderFileNotFoundToCopy(ErrorInOS):
+class FolderFileNotFoundToMove(ErrorInOS):
     def __init__(self):
-        super().__init__("Folder or File Not Found To Copy Error", "Please specify a File or Folder to copy to.")
+        super().__init__("Folder or File Not Found To Move Error", "Please specify a File or Folder to move to.")
         
 class FolderFileNotFound(ErrorInOS):
     def __init__(self, folfil):
         super().__init__("Folder or File Not Found Error", f"The File/Folder \"{folfil}\" doesn't exist.")
         
-class CopyToFile(ErrorInOS):
+class MoveToFile(ErrorInOS):
     def __init__(self):
-        super().__init__("Copy To File Error", "You can only copy to directories.")
+        super().__init__("Move To File Error", "You can only move to directories.")

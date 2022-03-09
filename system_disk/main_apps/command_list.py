@@ -13,7 +13,7 @@ WRITESCREEN = "writescrn" # write a message in the screen, "echo" in cmd
 OPEN = "open" # open a file
 GETSTATSPC = "statspc" # get stats from pc, like ram, cpu and etc...
 DATETIME = "datime" # Get current date and time
-COPY = "copy" # copy files and folders to another directories (probably is only being added in a future ver)
+MOVE = "move" # move files and folders to another directories
 HELP = "help" # Get commands available
 
 cmd_help = {SHUTDOWN: "Shutdown the system",
@@ -26,7 +26,7 @@ cmd_help = {SHUTDOWN: "Shutdown the system",
             OPEN + " (to do)": "Open a file",
             GETSTATSPC: "Get stats from pc, like RAM, CPU...",
             DATETIME: "Get current date and time",
-            COPY + " (to do)": "Copy files or folders to another directories",
+            MOVE: "Move files or folders to another directories",
             HELP: "Get all commands available"}
 
 def shutdown_cm():
@@ -142,28 +142,24 @@ def help_cm():
 def open_file_cm():
     pass
     
-def copy_cm(fst_fiol, sec_fol):
+def move_cm(fst_fiol, sec_fol):
     error = None
-    is_file_fst = False
     is_file_sec = False
     if not os.path.exists(fst_fiol): error = FolderFileNotFound(fst_fiol)
     elif not os.path.exists(sec_fol): error = FolderFileNotFound(sec_fol)
         
     else:  
-        if os.path.isfile(sec_fol): is_file_fst = True
         if os.path.isfile(sec_fol): is_file_sec = True
         
-        if is_file_sec: error = CopyToFile()
+        if is_file_sec: error = MoveToFile()
         
         else:
             try: 
-                shutil.copy2(fst_fiol, sec_fol)
-                if is_file_fst: delfile_cm(fst_fiol)
-                else: delfolder_cm(fst_fiol)
+                shutil.move(fst_fiol, sec_fol)
                 
-            except: print("Error Copying File...")
+            except: print("Error moving File...")
             
         
         
     
-    if error: error.str_return()
+    if error: return error.str_return()
