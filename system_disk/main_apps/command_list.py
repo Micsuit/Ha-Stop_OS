@@ -2,7 +2,8 @@
 All commands in the system...
 """
 
-import sys, time, os, shutil
+import sys, time, os, shutil, pathlib
+from main_apps.ext_database import load_ext
 from sysINF.SYS_INF import *
 from errors.system_error import *
 
@@ -143,8 +144,25 @@ def help_cm():
     for key, value in cmd_help.items():
         print(f"\n  - {key.upper()}: {value}")
 
-def open_file_cm():
-    pass
+def open_file_cm(file):
+    from main_apps import ext_database
+    error = None
+    
+#if os.path.isfile(file):
+    file_ext = pathlib.Path(file).suffix if pathlib.Path(file).suffix else None
+    if not file_ext: error = FileExtensionNotFound()
+    else: 
+        ext_pro = ext_database.load_ext(file_ext)
+        if ext_pro:
+            return f"Program path to open \"{file_ext}\": {ext_pro}"
+        else: error = FileExtensionNotIdentified(file_ext)
+    
+    #else:
+        #error = FileWasNotFound(file)
+    
+    if error: return error.str_return()
+    
+    
     
 def move_cm(fst_fiol, sec_fol):
     error = None

@@ -2,6 +2,7 @@
 Errors used by the system...
 """
 
+from xml.dom.minidom import Identified
 from sysINF.SYS_INF import SYSTEM_NAME
 
 
@@ -89,3 +90,11 @@ class FolderFileNotFound(ErrorInOS):
 class MoveToFile(ErrorInOS):
     def __init__(self):
         super().__init__("Move To File Error", "You can only move to directories.")
+        
+class FileExtensionNotFound(ErrorInOS):
+    def __init__(self):
+        super().__init__("File Extension Not Found Error", "File extension not found, cannot open file.")
+
+class FileExtensionNotIdentified(ErrorInOS):
+    def __init__(self, ext):
+        super().__init__("File Extension Not Identified Error", f"File extension \"{ext}\" not identified, cannot open file.\n(Do a Pull Request if file extension is needed)")

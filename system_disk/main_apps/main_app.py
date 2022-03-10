@@ -45,100 +45,103 @@ class get_commands:
 
     def get_command(self):
         error = None
-        while self.current_char in " \t":
-            self.advance()
-        self.word = self.make_word().lower()
-        if self.word == GOTO:
-            if self.blank_file():
-                error = FolderNotDefined()
-            else:
-                while self.current_char in " \t" and self.pos < len(self.text):
-                    self.advance()
-                value = self.make_word()
-                self.cmd_str = command("GOTO", value)
-        elif self.word == CREATEFILE:
-            if self.blank_file(): error = FileNotDefined()
-            else:
-                while self.current_char in " \t" and self.pos < len(self.text):
-                    self.advance()
-                value = self.make_word()
-                if pathvalidate.is_valid_filename(value) and not self.only_dots(value):
-                    self.cmd_str = command("CREATEFIL", value)
+        if not self.text.isspace() and not self.text == "":
+            while self.current_char in " \t":
+                self.advance()
+            self.word = self.make_word().lower()
+            if self.word == GOTO:
+                if self.blank_file():
+                    error = FolderNotDefined()
                 else:
-                    error = InvalidFileName(value)
-        elif self.word == CREATEFOLDER:
-            if self.blank_file(): error = FolderNotDefined()
-            else:
-                while self.current_char in " \t" and self.pos < len(self.text):
-                    self.advance()
-                value = self.make_word()
-                if pathvalidate.is_valid_filepath(value) and not self.only_dots(value):
-                    self.cmd_str = command("CREATEFOL", value)
+                    while self.current_char in " \t" and self.pos < len(self.text):
+                        self.advance()
+                    value = self.make_word()
+                    self.cmd_str = command("GOTO", value)
+            elif self.word == CREATEFILE:
+                if self.blank_file(): error = FileNotDefined()
                 else:
-                    error = InvalidFolderName(value)
-        elif self.word == DELETEFILE:
-            if self.blank_file(): error = FileNotDefined()
-            else:
-                while self.current_char in " \t" and self.pos < len(self.text):
-                    self.advance()
-                value = self.make_word()
-                self.cmd_str = command("DELETEFIL", value)
-        elif self.word == DELETEFOLDER:
-            if self.blank_file(): error = FolderNotDefined()
-            else:
-                while self.current_char in " \t" and self.pos < len(self.text):
-                    self.advance()
-                value = self.make_word()
-                self.cmd_str = command("DELETEFOL", value)
-        elif self.word == WRITESCREEN:
-            self.advance()
-            value = self.make_word()
-            if value.isspace() or value == "": value = "*Nothing*"
-            self.cmd_str = command("WRITESCRN", value)
-        elif self.word == OPEN:
-            if self.blank_file(): error = FileNotDefined()
-            else:
-                while self.current_char in " \t" and self.pos < len(self.text):
-                    self.advance()
-                value = self.make_word()
-                self.cmd_str = command("OPEN", value)
-        elif self.word == MOVE:
-            if self.blank_file(): error = FolderFileNotFoundMove()
-            else:
-                while self.current_char in " \t" and self.pos < len(self.text): self.advance()
-                path1 = self.make_word()
-                if path1.isspace() or path1 == "":
-                    error = FolderFileNotFoundMove()
-                else:
-                    if self.current_char:
-                        while self.current_char in " >\t" and self.pos < len(self.text): self.advance()
-                    if self.blank_file(): error = FolderFileNotFoundToMove()
+                    while self.current_char in " \t" and self.pos < len(self.text):
+                        self.advance()
+                    value = self.make_word()
+                    if pathvalidate.is_valid_filename(value) and not self.only_dots(value):
+                        self.cmd_str = command("CREATEFIL", value)
                     else:
-                        path2 = self.make_word()
-                        self.cmd_str = command("MOVE", f"{path1} >>> {path2}")
-        
-        elif self.word == SHUTDOWN:
-            self.cmd_str = command("SHUTDOWN")
+                        error = InvalidFileName(value)
+            elif self.word == CREATEFOLDER:
+                if self.blank_file(): error = FolderNotDefined()
+                else:
+                    while self.current_char in " \t" and self.pos < len(self.text):
+                        self.advance()
+                    value = self.make_word()
+                    if pathvalidate.is_valid_filepath(value) and not self.only_dots(value):
+                        self.cmd_str = command("CREATEFOL", value)
+                    else:
+                        error = InvalidFolderName(value)
+            elif self.word == DELETEFILE:
+                if self.blank_file(): error = FileNotDefined()
+                else:
+                    while self.current_char in " \t" and self.pos < len(self.text):
+                        self.advance()
+                    value = self.make_word()
+                    self.cmd_str = command("DELETEFIL", value)
+            elif self.word == DELETEFOLDER:
+                if self.blank_file(): error = FolderNotDefined()
+                else:
+                    while self.current_char in " \t" and self.pos < len(self.text):
+                        self.advance()
+                    value = self.make_word()
+                    self.cmd_str = command("DELETEFOL", value)
+            elif self.word == WRITESCREEN:
+                self.advance()
+                value = self.make_word()
+                if value.isspace() or value == "": value = "*Nothing*"
+                self.cmd_str = command("WRITESCRN", value)
+            elif self.word == OPEN:
+                if self.blank_file(): error = FileNotDefined()
+                else:
+                    while self.current_char in " \t" and self.pos < len(self.text):
+                        self.advance()
+                    value = self.make_word()
+                    self.cmd_str = command("OPEN", value)
+            elif self.word == MOVE:
+                if self.blank_file(): error = FolderFileNotFoundMove()
+                else:
+                    while self.current_char in " \t" and self.pos < len(self.text): self.advance()
+                    path1 = self.make_word()
+                    if path1.isspace() or path1 == "":
+                        error = FolderFileNotFoundMove()
+                    else:
+                        if self.current_char:
+                            while self.current_char in " >\t" and self.pos < len(self.text): self.advance()
+                        if self.blank_file(): error = FolderFileNotFoundToMove()
+                        else:
+                            path2 = self.make_word()
+                            self.cmd_str = command("MOVE", f"{path1} >>> {path2}")
                 
-        elif self.word == FILESINFOLDER:
-            self.cmd_str = command("FILFOL")
             
-        elif self.word == DATETIME:
-            self.cmd_str = command("DATIME")
-        
-        elif self.word == GETSTATSPC:
-            self.cmd_str = command("STATSPC")
+            elif self.word == SHUTDOWN:
+                self.cmd_str = command("SHUTDOWN")
+                    
+            elif self.word == FILESINFOLDER:
+                self.cmd_str = command("FILFOL")
+                
+            elif self.word == DATETIME:
+                self.cmd_str = command("DATIME")
             
-        elif self.word == HELP:
-            self.cmd_str = command("HELP")
+            elif self.word == GETSTATSPC:
+                self.cmd_str = command("STATSPC")
+                
+            elif self.word == HELP:
+                self.cmd_str = command("HELP")
+                
             
-        elif self.word.isspace() or self.word == "":
-            return "", error
+            else:
+                error = CommandNotIdentified(self.word)
+                        
+            return self.cmd_str, error
         
         else:
-            error = CommandNotIdentified(self.word)
-                    
-        return self.cmd_str, error
+            return "", error
                     
     def make_word(self):
         not_in, word_text = "", ""
@@ -202,6 +205,10 @@ def int_cmd(cmd):
         
         if mpy: return mpy
         
+    elif type_cmd == OPEN:
+        opn = open_file_cm(value_cmd)
+        
+        if opn: return opn
     
     else: return CommandNotYetImplemented(type_cmd).str_return()
         
