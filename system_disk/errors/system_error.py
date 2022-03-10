@@ -1,8 +1,6 @@
 """
 Errors used by the system...
 """
-
-from xml.dom.minidom import Identified
 from sysINF.SYS_INF import SYSTEM_NAME
 
 
