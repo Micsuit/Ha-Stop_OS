@@ -106,3 +106,7 @@ class FileExtensionNotIdentified(ErrorInOS):
 class ArgvNotIdentified(WarningInOS):
     def __init__(self, argv):
         super().__init__(f"The argument \"{argv}\" doesn't exist. Reading file...")
+        
+class ArgvNotFound(WarningInOS):
+    def __init__(self):
+        super().__init__(f"Argument not specified. Reading file...")
