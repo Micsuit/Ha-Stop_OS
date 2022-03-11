@@ -9,7 +9,14 @@ class ErrorInOS:
         self.details = details
 
     def str_return(self):
-        return self.error + ": " + self.details
+        return f"{self.error}: {self.details}"
+    
+class WarningInOS:
+    def __init__(self, warning):
+        self.warning = warning
+        
+    def show_warning(self):
+        print(f"[WARNING]: {self.warning}")
 
 
 class DiskNotFoundInOS(ErrorInOS):
@@ -95,3 +102,7 @@ class FileExtensionNotFound(ErrorInOS):
 class FileExtensionNotIdentified(ErrorInOS):
     def __init__(self, ext):
         super().__init__("File Extension Not Identified Error", f"File extension \"{ext}\" not identified, cannot open file.\n(Do a Pull Request if file extension is needed)")
+
+class ArgvNotIdentified(WarningInOS):
+    def __init__(self, argv):
+        super().__init__(f"The argument \"{argv}\" doesn't exist. Reading file...")

@@ -166,7 +166,6 @@ def int_cmd(cmd):
     if type_cmd == SHUTDOWN: shutdown_cm()
     
     elif type_cmd == GOTO:
-        #print("Current Directory:", current_dir, "\nValue_cmd:", value_cmd)
         gt = goto_cm(value_cmd, current_dir)
         if gt: return gt
         
@@ -220,8 +219,6 @@ def run(command):
     
     if command_get: return int_cmd(command_get)
     else: pass
-    
-    #return int_cmd(command_get) if command_get else ""
         
 
 def main_app_sys():

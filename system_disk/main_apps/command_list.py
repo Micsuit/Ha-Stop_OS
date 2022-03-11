@@ -148,17 +148,18 @@ def open_file_cm(file):
     from main_apps import ext_database
     error = None
     
-#if os.path.isfile(file):
-    file_ext = pathlib.Path(file).suffix if pathlib.Path(file).suffix else None
-    if not file_ext: error = FileExtensionNotFound()
-    else: 
-        ext_pro = ext_database.load_ext(file_ext)
-        if ext_pro:
-            return f"Program path to open \"{file_ext}\": {ext_pro}"
-        else: error = FileExtensionNotIdentified(file_ext)
+    if os.path.isfile(file):
+        file_ext = pathlib.Path(file).suffix if pathlib.Path(file).suffix else None
+        if not file_ext: error = FileExtensionNotFound()
+        else: 
+            ext_pro = ext_database.load_ext(file_ext)
+            if ext_pro:
+                from applications.notepad import ntpd
+                #return f"Program path to open \"{file_ext}\": {ext_pro}"
+                ntpd.open_file(file)
+            else: error = FileExtensionNotIdentified(file_ext)
     
-    #else:
-        #error = FileWasNotFound(file)
+    else: error = FileWasNotFound(file)
     
     if error: return error.str_return()
     
