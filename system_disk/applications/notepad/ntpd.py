@@ -1,6 +1,5 @@
 """
 Used to open .txt files in the system.
-Currently empty lol
 """
 
 from errors.system_error import *
