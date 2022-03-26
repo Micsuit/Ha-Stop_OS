@@ -4,8 +4,20 @@ Used to open .txt files in the system.
 
 from errors.system_error import *
 
+def is_inv_phr(str_phr) -> bool:
+    try: str_phr.encode("ascii")
+    except UnicodeEncodeError: return True
+    return False
+
+def norm_str(str_nrm) -> str:
+    import unicodedata
+    text = str(unicodedata.normalize('NFKD', str_nrm).encode('ascii', 'ignore').decode("utf-8"))
+    return text
+    
+    
+
 def read_file(file):
-    print("\n\n\nText:")
+    print("\n\nText:")
     with open(file, "r") as file_read:
         print(f"\"{file_read.read()}\"")
             
@@ -17,6 +29,10 @@ def write_file(file):
         while enter_count < 3:
             line_count += 1
             wrt_line_usr = input(f"Line {line_count}: ")
+            if is_inv_phr(wrt_line_usr):
+                wrt_line_usr = norm_str(wrt_line_usr)
+                InvalidCharacters(wrt_line_usr).show_warning()
+                
             if wrt_line_usr == "": enter_count += 1
             else: enter_count = 0; file_write.write(f"\n{wrt_line_usr}")
 
@@ -26,11 +42,13 @@ def append_file(file):
     with open(file, "r") as file_temp:
         list_file = file_temp.readlines() 
     line_count = len(list_file)
-    #print(f"Line {line_count}")
     with open(file, "a") as file_append:
         while enter_count < 3:
             line_count += 1
             wrt_line_usr = input(f"Line {line_count}: ")
+            if is_inv_phr(wrt_line_usr):
+                wrt_line_usr = norm_str(wrt_line_usr)
+                InvalidCharacters(wrt_line_usr).show_warning()
             if wrt_line_usr == "": enter_count += 1
             else: enter_count = 0; file_append.write(f"\n{wrt_line_usr}")
         

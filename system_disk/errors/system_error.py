@@ -109,4 +109,8 @@ class ArgvNotIdentified(WarningInOS):
         
 class ArgvNotFound(WarningInOS):
     def __init__(self):
-        super().__init__(f"Argument not specified. Reading file...")
+        super().__init__("Argument not specified. Reading file...")
+        
+class InvalidCharacters(WarningInOS):
+    def __init__(self, normalized):
+        super().__init__(f"Detected non-ascii characters, normalizing string to \"{normalized}\".")
