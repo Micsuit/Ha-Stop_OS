@@ -11,7 +11,14 @@ def read_file(file):
             
             
 def write_file(file):
-    pass
+    enter_count = 0
+    line_count = 0
+    with open(file, "a") as file_write:
+        while enter_count < 3:
+            line_count += 1
+            wrt_line_usr = input(f"Line {line_count}: ")
+            if wrt_line_usr == "": enter_count += 1
+            else: enter_count = 0; file_write.write(f"\n{wrt_line_usr}")
 
 
 def append_file(file):
