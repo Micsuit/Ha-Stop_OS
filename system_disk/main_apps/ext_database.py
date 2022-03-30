@@ -5,8 +5,8 @@ the file and return the correct program to open it.
 
 from errors.system_error import *
 
-all_ext = {".txt": "system_disk/applications/notepad/ntpd.py",
-           ".py": "system_disk/applications/notepad/ntpd.py"}
+all_ext = {".txt": "notepad",
+           ".py": "notepad"}
 
 
 def load_ext(ext) -> str:

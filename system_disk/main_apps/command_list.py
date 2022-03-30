@@ -28,7 +28,7 @@ cmd_help = {SHUTDOWN: "Shutdown the system",
             DELETEFILE: "Delete a folder", 
             FILESINFOLDER: "Make a list of files and folders in the current folder",
             WRITESCREEN: "Write a message on to the screen",
-            OPEN + " (to do)": "Open a file",
+            OPEN + " (currently doing...)": "Open a file",
             GETSTATSPC: "Get stats from pc, like RAM, CPU...",
             DATETIME: "Get current date and time",
             MOVE: "Move files or folders to another directories",
@@ -153,11 +153,11 @@ def open_file_cm(file):
         if not file_ext: error = FileExtensionNotFound()
         else: 
             ext_pro = ext_database.load_ext(file_ext)
-            if ext_pro:
-                from applications.notepad import ntpd
-                #return f"Program path to open \"{file_ext}\": {ext_pro}"
-                ntpd.open_file(file)
-            else: error = FileExtensionNotIdentified(file_ext)
+            if ext_pro == "notepad": from applications.notepad import ntpd; ntpd.open_file(file)
+            else: 
+                USR_CONF = input("File extension not identified, do you want to open it with Hex Viewer? (Y)es or (N)o: ")
+                if USR_CONF.lower().strip() == "y": from applications.hxvw import hxvw; hxvw.hxvw_main(file)
+                
     
     else: error = FileWasNotFound(file)
     

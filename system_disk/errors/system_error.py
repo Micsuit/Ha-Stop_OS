@@ -99,9 +99,9 @@ class FileExtensionNotFound(ErrorInOS):
     def __init__(self):
         super().__init__("File Extension Not Found Error", "File extension not found, cannot open file.")
 
-class FileExtensionNotIdentified(ErrorInOS):
-    def __init__(self, ext):
-        super().__init__("File Extension Not Identified Error", f"File extension \"{ext}\" not identified, cannot open file.\n(Do a Pull Request if file extension is needed)")
+#class FileExtensionNotIdentified(ErrorInOS):
+#    def __init__(self, ext):
+#        super().__init__("File Extension Not Identified Error", f"File extension \"{ext}\" not identified, cannot open file.\n(Do a Pull Request if file extension is needed)")
 
 class ArgvNotIdentified(WarningInOS):
     def __init__(self, argv):
@@ -114,3 +114,7 @@ class ArgvNotFound(WarningInOS):
 class InvalidCharacters(WarningInOS):
     def __init__(self, normalized):
         super().__init__(f"Detected non-ascii characters, normalizing string to \"{normalized}\".")
+        
+class FileTooLarge(ErrorInOS):
+    def __init__(self):
+        super().__init__("File Too Large Error", "File too large to be opened, can only open files with 64 KB or less.")
