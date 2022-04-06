@@ -1,5 +1,5 @@
 """
-Used to open .txt files in the system.
+Used to open text files in the system.
 """
 
 from errors.system_error import *

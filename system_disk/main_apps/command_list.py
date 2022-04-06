@@ -154,9 +154,12 @@ def open_file_cm(file):
         else: 
             ext_pro = ext_database.load_ext(file_ext)
             if ext_pro == "notepad": from applications.notepad import ntpd; ntpd.open_file(file)
+            elif ext_pro == "hxvw": from applications.hxvw import hxvw; hxvw.hxvw_main(file)
             else: 
-                USR_CONF = input("File extension not identified, do you want to open it with Hex Viewer? (Y)es or (N)o: ")
-                if USR_CONF.lower().strip() == "y": from applications.hxvw import hxvw; hxvw.hxvw_main(file)
+                USR_CONF = input("File extension unknown, please select the program to open it:\n\n- (N)otepad\n- (H)ex Viewer\n\nEnter: ")
+                if USR_CONF.lower().strip() == "h": from applications.hxvw import hxvw; hxvw.hxvw_main(file)
+                elif USR_CONF.lower().strip() == "n": from applications.notepad import ntpd; ntpd.open_file(file)
+                
                 
     
     else: error = FileWasNotFound(file)

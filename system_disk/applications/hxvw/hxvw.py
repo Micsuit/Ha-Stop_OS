@@ -1,8 +1,13 @@
+"""
+Hex Viewer made in Python. Used to open .hx files.
+"""
+
 from textwrap import wrap
 from sysINF.SYS_INF import type_stor
 from errors.system_error import *
 import os
 from applications.hxvw import database_hex
+from time import strftime
 
 def hxvw_main(file):
     FILESIZE_LIMIT = 64000
@@ -17,12 +22,10 @@ def hxvw_main(file):
             HXDTLN = 0
             for n, i in enumerate(HXDTLT):
                 if i.upper() in database_hex.HEX_NOT_TEXT:
-                    HXDTLT_text[n] = "2e"
-            HXDTOT = "\n"
-            HXDTOT_no_text = "\n"
+                    HXDTLT_text[n] = "2e" # 2e = "."
+            HXDTOT = "\n[00000000]   "
+            HXDTOT_no_text = "\n[00000000]   "
             HXDTTT_decoded = ""
-            HXDTOT += "[00000000]   "
-            HXDTOT_no_text = "[00000000]   "
             hex_line = 0
 
             for i in range(len(HXDTLT)):
@@ -53,6 +56,6 @@ def hxvw_main(file):
         user_info_file = input("Do you want to save the output in a file? (Y)es or (N)o: ")
 
         if user_info_file.lower().strip() == "y":
-            with open(file + "_trace.txt", "w") as file_trace:
-                file_trace.write(HXDTOT_no_text)
+            with open(f"{file} + _trace{strftime('%H%M%S')}.txt", "w") as file_trace:
+                file_trace.write(f"File created by Hex Viewer at {strftime('%H:%M:%S')}...\n\n {HXDTOT_no_text}")
             print(f"Output saved in {os.getcwd()}\\{file}_trace.txt")
