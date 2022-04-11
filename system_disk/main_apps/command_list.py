@@ -20,6 +20,7 @@ GETSTATSPC = "statspc" # get stats from pc, like ram, cpu and etc...
 DATETIME = "datime" # Get current date and time
 MOVE = "move" # move files and folders to another directories
 HELP = "help" # Get commands available
+CALC = "calc"
 
 cmd_help = {SHUTDOWN: "Shutdown the system",
             GOTO: "Go to a folder",
@@ -32,7 +33,8 @@ cmd_help = {SHUTDOWN: "Shutdown the system",
             GETSTATSPC: "Get stats from pc, like RAM, CPU...",
             DATETIME: "Get current date and time",
             MOVE: "Move files or folders to another directories",
-            HELP: "Get all commands available"}
+            HELP: "Get all commands available",
+            CALC: "Open calculator"}
 
 def shutdown_cm():
     print(f"Turning off {SYSTEM_NAME}...")
@@ -183,9 +185,13 @@ def move_cm(fst_fiol, sec_fol):
             try: 
                 shutil.move(fst_fiol, sec_fol)
                 
-            except: print("Error moving File...")
+            except: print("Error moving file...")
             
         
         
     
     if error: return error.str_return()
+    
+    
+def calc_cm():
+    from applications.calc import calc; calc.calc_main()

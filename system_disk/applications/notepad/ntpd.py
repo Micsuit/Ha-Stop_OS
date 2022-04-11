@@ -2,7 +2,9 @@
 Used to open text files in the system.
 """
 
+import sys
 from errors.system_error import *
+from applications.notepad import version_program
 
 def is_inv_phr(str_phr) -> bool:
     try: str_phr.encode("ascii")
@@ -54,10 +56,12 @@ def append_file(file):
         
 
 def open_file(file):
+    print(f"\n============================ Notepad {version_program.version} ============================\n")
     argv_user = input("(R)ead, (W)rite or (A)ppend? ")
     if argv_user.strip().lower() == "r": read_file(file)
     elif argv_user.strip().lower() == "w": write_file(file)
     elif argv_user.strip().lower() == "a": append_file(file)
+    elif argv_user.strip().lower() == "quit": pass
     elif argv_user == "" or argv_user.isspace(): ArgvNotFound().show_warning(); read_file(file)
     else: ArgvNotIdentified(argv_user).show_warning(); read_file(file)
     

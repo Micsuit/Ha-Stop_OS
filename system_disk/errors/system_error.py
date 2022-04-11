@@ -99,10 +99,6 @@ class FileExtensionNotFound(ErrorInOS):
     def __init__(self):
         super().__init__("File Extension Not Found Error", "File extension not found, cannot open file.")
 
-#class FileExtensionNotIdentified(ErrorInOS):
-#    def __init__(self, ext):
-#        super().__init__("File Extension Not Identified Error", f"File extension \"{ext}\" not identified, cannot open file.\n(Do a Pull Request if file extension is needed)")
-
 class ArgvNotIdentified(WarningInOS):
     def __init__(self, argv):
         super().__init__(f"The argument \"{argv}\" doesn't exist. Reading file...")
@@ -118,3 +114,7 @@ class InvalidCharacters(WarningInOS):
 class FileTooLarge(ErrorInOS):
     def __init__(self):
         super().__init__("File Too Large Error", "File too large to be opened, can only open files with 64 KB or less.")
+        
+class InvalidCalculation(ErrorInOS):
+    def __init__(self):
+        super().__init__("Invalid Calculation Error", "Invalid Calculation.")

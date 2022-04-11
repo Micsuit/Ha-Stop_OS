@@ -1,5 +1,5 @@
 """
-Hex Viewer made in Python. Used to open .hx files.
+Hex Viewer made in Python. Used to open files.
 """
 
 from textwrap import wrap
@@ -8,10 +8,12 @@ from errors.system_error import *
 import os
 from applications.hxvw import database_hex
 from time import strftime
+from applications.hxvw import version_program
 
 def hxvw_main(file):
-    FILESIZE_LIMIT = 64000
+    FILESIZE_LIMIT = 65535 # Bytes
     file_size_byte = os.path.getsize(file)
+    print(f"\n============================ Hex Viewer {version_program.version} ============================\n")
     print(f"File size: {type_stor.convert_show(os.path.getsize(file))}")
     if file_size_byte > FILESIZE_LIMIT: print(FileTooLarge().str_return()); return -1
     else:

@@ -134,6 +134,9 @@ class get_commands:
             elif self.word == HELP:
                 self.cmd_str = command("HELP")
                 
+            elif self.word == CALC:
+                self.cmd_str = command("CALC")
+                
             
             else:
                 error = CommandNotIdentified(self.word)
@@ -208,6 +211,11 @@ def int_cmd(cmd):
         opn = open_file_cm(value_cmd)
         
         if opn: return opn
+        
+    elif type_cmd == CALC:
+        clc = calc_cm()
+        
+        if clc: return clc
     
     else: return CommandNotYetImplemented(type_cmd).str_return()
         
